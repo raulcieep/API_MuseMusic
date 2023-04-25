@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-10 offset-md-2 my-2">
+      <h2>Añade una nueva Cancion</h2>
+    </div>
+    <div class="col-md-4 offset-md-2">
+      <ng-form [formGroup]="songsForm" (ngSubmit)="addSong()">
+        <div class="form-floating mb-3">
+          <input formControlName="name" type="text" class="form-control"
+                 id="name"
+                 placeholder="Nombre de la cancion">
+          <label for="name">Nombre de la cancion</label>
+          <div *ngIf="name.invalid && (name.dirty || name.touched)"
+               class="alert alert-warning" role="alert">
+            <div *ngIf="name.errors.required || name.errors.notOnlyWhitespace">
+              Nombre es obligatorio
+            </div>
+            <div *ngIf="name.errors.minlength">
+              Mínimo 2 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="form-floating mb-3">
+            <input formControlName="img" type="text" class="form-control"
+
+                   id="img"
+
+                   placeholder="Imagen de la cancion">
+            <label for="img">Imagen de la cancion</label>
+            <div *ngIf="img.invalid && (img.dirty || img.touched)"
+                 class="alert alert-warning" role="alert">
+              <div *ngIf="img.errors.required || img.errors.notOnlyWhitespace">
+                Imagen es obligatoria
+              </div>
+              <div *ngIf="img.errors.minlength">
+                Mínimo 2 caracteres
+              </div>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+          <input formControlName="year" type="text" class="form-control"
+
+                 id="year"
+
+                 placeholder="Año de la cancion">
+          <label for="year">Año de la cancion</label>
+          <div *ngIf="year.invalid && (year.dirty || year.touched)"
+               class="alert alert-warning" role="alert">
+            <div *ngIf="year.errors.required || year.errors.notOnlyWhitespace">
+              Año es obligatorio
+            </div>
+            <div *ngIf="year.errors.minlength">
+              Mínimo 1 caracter
+            </div>
+          </div>
+        </div>
+          <div class="mb-3">
+            <label for="trackId">Canciones guardadas</label>
+            <select class="form-select" formControlName="trackId" id="trackId"
+                    aria-label="trackId">
+              <option *ngFor="let track of canciones;" [value]="track">
+                {{track}}</option></select>
+            <div *ngIf="trackId.invalid && (trackId.dirty || trackId.touched)"
+                 class="alert alert-warning" role="alert">
+              <div *ngIf="trackId.errors.required">
+                Elegir una cancion es obligatorio
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="artistName">Artista</label>
+            <select class="form-select" formControlName="artistName" id="artistName"
+                    aria-label="artistName">
+              <option *ngFor="let artist of artistas;" [value]="artist.name">
+                {{artist.name}}</option></select>
+            <div *ngIf="artistName.invalid && (artistName.dirty || artistName.touched)"
+                 class="alert alert-warning" role="alert">
+              <div *ngIf="artistName.errors.required">
+                Elegir un artista es obligatorio
+              </div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="albumsNames">Albumes</label>
+            <select class="form-select" formControlName="albumsNames" id="albumsNames"
+                    aria-label="albumsNames" multiple>
+              <option *ngFor="let album of albumes;" [value]="album.name">
+                {{album.name}}</option></select>
+            <div *ngIf="albumsNames.invalid && (albumsNames.dirty || albumsNames.touched)"
+                 class="alert alert-warning" role="alert">
+              <div *ngIf="albumsNames.errors.required">
+                Elegir un album es obligatorio
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-success"
+                  (click)="addSong()">Add Song
+          </button>
+        </div>
+      </ng-form>
+    </div>
+    <div class="card" style="width: 300px;">
+      <img [src]="img.value ===''?'/assets/images/no-image-icon.jpg':img.value" class="card-img-top"
+           [alt]="img.value"/>
+      <div class="card-body">
+        <h3 class="card-text">{{name.value === '' ? 'Nombre' : name.value}}</h3>
+        <h3 class="card-text">Año: {{year.value === '' ? 'Año' : year.value}}</h3>
+        </div>
+    </div>
+    <ngb-toast class="toast-container position-fixed
+bg-success text-light top-0 end-50 p-1"
+               style="z-index: 1200" *ngIf="toastShow">
+
+      {{toast.body}}
+    </ngb-toast>
+  </div>
+</div>

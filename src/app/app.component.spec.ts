@@ -23,13 +23,13 @@ describe('AppComponent', () => {
   it(`should have as title 'PSP'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('PSP');
+    expect(app.title).toEqual('API');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('PSP app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('API app is running!');
   });
 });

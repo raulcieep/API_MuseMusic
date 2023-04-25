@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-12 toolbar p-3">
+      <ng-form (ngSubmit)="search($event)">
+        <div class="d-flex">
+          <h2>{{artistList.length}} Artistas</h2>
+          <input type="search" placeholder="Search..."
+                 class="ms-3 ps-5 form-control w-25"
+                 #searchInput (keyup)="search(searchInput.value)">
+        </div>
+      </ng-form>
+    </div>
+    <div class="mt-2 align-content-end text-end">
+      <button class="h2 btn" routerLinkActive="active" routerLink="/artists/add"><i class="fa fa-plus-circle"></i><b> Add
+        Artist</b></button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="mt-2 col-12 col-sm-6 col-md-4 col-lg-3" *ngFor="let artist of artistList">
+    <div class="card" style="width: 300px;">
+      <img src="{{artist.img}}" alt="API/src/assets/images/no-image-icon.jpg" class="card-img-top">
+      <div class="card-body">
+        <h3 class="card-text"><b>{{artist.name}}</b></h3>
+        <h3 class="card-text">Año: <b>{{artist.year}}</b></h3>
+        <h3 class="card-text">Nombre de los albumes:<span
+          *ngFor="let albums of artist.albums;let last=last">{{albums.name}}{{last ? '.' : ', '}} </span></h3>
+        <h3 class="card-text">Nombre de las canciones:<span
+          *ngFor="let songs of artist.songs;let last=last">{{songs.name}}{{last ? '.' : ', '}} </span></h3></div>
+      <div class="card-body">
+        <button class="btn mt-2 col-12 btn-danger" (click)="removeArtist(artist)"><i class="fa fa-trash-can"></i> Eliminar
+          Artista
+        </button>
+        <button class="btn mt-2 col-12 btn-warning" data-bs-toggle="modal" data-bs-target="#miModal"
+                (click)="loadArtist(artist)"><i class="fa fa-pencil"></i> Editar Artista
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="miModal"
+       tabindex="-1" aria-labelledby="miModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="miModalLabel">
+            {{editar ? name.value : 'New Album'}}
+          </h5>
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+        </div>
+        <form [formGroup]="artistForm" (ngSubmit)="onSubmit()">
+          <div class="modal-body">
+            <div class="form-floating mb-3">
+              <input formControlName="name"
+                     type="text" class="form-control"
+                     id="name" value="{{name}}"
+                     placeholder="Nombre">
+              <label for="name">
+                Nombre</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input formControlName="img"
+                     type="text" class="form-control"
+                     id="img" value="{{img}}"
+                     placeholder="Imagen">
+              <label for="img">
+                Imagen</label>
+            </div>
+            <div class="mb-3">
+              <img src="{{img.value}}" alt="/assets/images/no-image-icon.jpg" class="card-img">
+            </div>
+            <div class="form-floating mb-3">
+              <input formControlName="year"
+                     value="{{year}}"
+                     type="number" class="form-control"
+                     id="year"
+                     placeholder="Año">
+              <label for="year">
+                Año</label>
+            </div>
+            <div class="mb-3">
+              <label for="songs">
+                Canciones</label>
+              <select class="form-select" formControlName="songs" id="songs"
+                      aria-label="songs" multiple>
+                <option *ngFor="let song of canciones;" [value]="song">
+                  {{song.name}}</option></select>
+            </div>
+            <div class="mb-3">
+              <label for="albums">
+                Albums</label>
+              <select class="form-select" formControlName="albums" id="albums"
+                      aria-label="albums" multiple>
+                <option *ngFor="let album of albumes;" [value]="album">
+                  {{album.name}}</option></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success" (click)="guardar = !guardar" data-bs-dismiss="modal">Save
+              Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
